@@ -11,7 +11,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/betacraft/yaag/yaag/models"
+	"github.com/akshaykumar12527/yaag/yaag/models"
 )
 
 var count int
@@ -22,6 +22,10 @@ var spec *models.Spec = &models.Spec{}
 
 func IsOn() bool {
 	return config.On
+}
+
+func DocPath() string {
+	return config.DocPath
 }
 
 func Init(conf *Config) {

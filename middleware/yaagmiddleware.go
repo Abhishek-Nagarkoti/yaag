@@ -16,8 +16,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/betacraft/yaag/yaag"
-	"github.com/betacraft/yaag/yaag/models"
+	"github.com/akshaykumar12527/yaag/yaag"
+	"github.com/akshaykumar12527/yaag/yaag/models"
 )
 
 /* 32 MB in memory max */
@@ -74,10 +74,9 @@ func Before(apiCall *models.ApiCall, req *http.Request) {
 	apiCall.RequestHeader = ReadHeaders(req)
 	apiCall.RequestUrlParams = ReadQueryParams(req)
 	val, ok := apiCall.RequestHeader["Content-Type"]
-	log.Println(val)
+
 	if ok {
-		ct := strings.TrimSpace(apiCall.RequestHeader["Content-Type"])
-		switch ct {
+		switch val {
 		case "application/x-www-form-urlencoded":
 			fallthrough
 		case "application/json, application/x-www-form-urlencoded":
@@ -87,7 +86,10 @@ func Before(apiCall *models.ApiCall, req *http.Request) {
 			log.Println("Reading body")
 			apiCall.RequestBody = *ReadBody(req)
 		default:
-			if strings.Contains(ct, "multipart/form-data") {
+			if strings.Contains(val, "application/json") {
+				log.Println("Reading body charset")
+				apiCall.RequestBody = *ReadBody(req)
+			} else if strings.Contains(val, "multipart/form-data") {
 				handleMultipart(apiCall, req)
 			}
 		}
