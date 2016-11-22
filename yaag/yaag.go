@@ -65,7 +65,7 @@ func GenerateHtml(apiCall *models.ApiCall) {
 				}
 			}
 			if !avoid {
-				spec.ApiSpecs[k].Calls = append(apiSpec.Calls, *apiCall)
+				spec.ApiSpecs[k].Calls = []models.ApiCall{*apiCall}
 			}
 		}
 	}
@@ -78,7 +78,7 @@ func GenerateHtml(apiCall *models.ApiCall) {
 		apiCall.Id = count
 		count += 1
 		deleteCommonHeaders(apiCall)
-		apiSpec.Calls = append(apiSpec.Calls, *apiCall)
+		apiSpec.Calls = []models.ApiCall{*apiCall}
 		spec.ApiSpecs = append(spec.ApiSpecs, apiSpec)
 	}
 	filePath, err := filepath.Abs(config.DocPath)
